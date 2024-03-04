@@ -9,7 +9,7 @@ API que se comunica com um dispositivo biométrico local nitgen, perfeito para i
 O instalador deste projeto tem uma dependência de um outra aplicação para que funcione o seerviço corretamente, **[baixe e compile este projeto](https://github.com/FingerTechBR/biometric-tray-application)**. Você pode baixar um instalador na página de releases no github. O mesmo irá instalar uma aplicação que roda no tray que você poderá, clicando com o botão direito, iniciar ou parar o serviço. 
 
 # Mapa da API
-O prefixo é: `http://localhost:5000/apiservice/`  
+O prefixo é: `http://localhost:9000/apiservice/`  
 Você pode alterar a porta em appsettings.json se precisar em caso de conflito.
 
 #### GET: `capture-hash/`
