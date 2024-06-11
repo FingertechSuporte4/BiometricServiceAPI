@@ -18,6 +18,9 @@ namespace BiometricService
             _NBioAPI = new NBioAPI();
             _IndexSearch = new NBioAPI.IndexSearch(_NBioAPI);
             _IndexSearch.InitEngine();
+
+            string filepath = "C:\\Windows\\System32\\NBSP2Por.dll";
+            _NBioAPI.SetSkinResource(filepath);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)

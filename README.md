@@ -126,7 +126,6 @@ Exclui todos os dados armazenados na memória para uso no index search, caso tud
 --------------------------------
 
 #### GET : `total-in-memory`
-
 Retorna a quantidade de templates armazenados na memória:
 `200 | OK`
 ```json
@@ -139,12 +138,44 @@ Retorna a quantidade de templates armazenados na memória:
 --------------------------------
 
 #### GET : `device-unique-id`
-
 Retorna o ID único do dispositivo biométrico:
 `200 | OK`
 ```json
 {
 	"serial": "FF-FF-FF-FF-FF-FF-FF-FF",  <------ device ID
 	"success": true
+}
+```
+--------------------------------
+
+#### POST : `join-templates`
+Recebe dois ou mais templates e retorna um template único com a informação de todos os dedos registrados:
+##### POST REQUEST content:
+```json
+[
+    {
+        "template": "AAAAAZCXZDSfe34t4f//..."
+    },
+    {
+        "template": "AAAAAZCXZDSfe3ff454t4f//..."
+    },
+    ...
+]
+```
+caso o procedimento de verificação corra bem, retorna:
+`200 | OK`
+```json
+{
+	"template": "AAAAAZCXZDSfe34t4f//...",  <------ combined hash
+	"message": "Templates joined successfully",
+	"success": true
+}
+```
+qualquer outra coisa:  
+`400 | BAD REQUEST`
+```json
+{
+    "message": "Error creating template: {nitgen error code}",
+    "success": false
 }
 ```

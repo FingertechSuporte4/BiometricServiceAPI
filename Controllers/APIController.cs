@@ -55,5 +55,11 @@ namespace BiometricService.Controllers
         {
             return _biometric.DeviceUniqueSerialID();
         }
+
+        [HttpPost("join-templates")]
+        public IActionResult JoinTemplates([FromBody] JsonArray fingers)
+        {
+            return _biometric.JoinTemplates(fingers);
+        }
     }
 }
