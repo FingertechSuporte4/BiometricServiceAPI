@@ -75,6 +75,9 @@ qualquer outra coisa:
     "success": false
 }
 ```
+Caso encontre problemas com a validação da impressão digital sendo muito rigorosa ou muito permissível, é possível passar um parâmetro opcional `secuLevel` para reduzir ou aumentar o nível de segurança da validação entre 1 e 9, o padrão é 5. 
+
+`/identification?secuLevel=9`
 
 --------------------------------
 

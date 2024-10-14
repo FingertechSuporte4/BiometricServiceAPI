@@ -91,7 +91,7 @@ public class Biometric
         );
     }
 
-    public IActionResult Identification()
+    public IActionResult Identification(uint secuLevel = NBioAPI.Type.FIR_SECURITY_LEVEL.NORMAL)
     {
         APIServiceInstance._NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
         uint ret = APIServiceInstance._NBioAPI.Capture(NBioAPI.Type.FIR_PURPOSE.VERIFY, out NBioAPI.Type.HFIR hCapturedFIR, NBioAPI.Type.TIMEOUT.DEFAULT, null, null);
@@ -105,7 +105,7 @@ public class Biometric
         );
 
         NBioAPI.IndexSearch.CALLBACK_INFO_0 cbInfo = new();
-        APIServiceInstance._IndexSearch.IdentifyData(hCapturedFIR, NBioAPI.Type.FIR_SECURITY_LEVEL.NORMAL, out NBioAPI.IndexSearch.FP_INFO fpInfo, cbInfo);
+        APIServiceInstance._IndexSearch.IdentifyData(hCapturedFIR, secuLevel, out NBioAPI.IndexSearch.FP_INFO fpInfo, cbInfo);
 
         return new OkObjectResult(
             new JsonObject

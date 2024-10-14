@@ -27,9 +27,16 @@ namespace BiometricService.Controllers
         }
 
         [HttpGet("identification")]
-        public IActionResult Identification()
+        public IActionResult Identification(uint? secuLevel)
         {
-            return _biometric.Identification();
+            if (secuLevel.HasValue)
+            {
+                return _biometric.Identification((uint)secuLevel);
+            }
+            else
+            {
+                return _biometric.Identification();
+            }
         }
 
         [HttpPost("load-to-memory")]
