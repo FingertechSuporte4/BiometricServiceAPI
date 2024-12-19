@@ -30,6 +30,27 @@ qualquer outra coisa:
 
 --------------------------------
 
+#### GET: `capture-for-verify/`
+Ativa o dispositivo biométrico para capturar sua impressão digital para verificação, caso tudo corra bem, retorna:  
+`200 | OK`
+```json
+{
+    "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash
+    "image": "base64",                      <------- fingerprint image
+    "success": true
+}
+```
+qualquer outra coisa:  
+`400 | BAD REQUEST`
+```json
+{
+    "message": "Error on Capture: {nitgen error code}",
+    "success": false
+}
+```
+
+--------------------------------
+
 #### POST: `match-one-on-one/`
 Recebe um template e ativa o dispositivo biométrico para comparar:  
 ##### conteúdo da requisição POST:

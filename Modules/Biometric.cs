@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NITGEN.SDK.NBioBSP;
+using System.ComponentModel;
+using System.Reflection;
 using System.Text.Json.Nodes;
 using static NITGEN.SDK.NBioBSP.NBioAPI.Export;
 using static NITGEN.SDK.NBioBSP.NBioAPI.Type;
@@ -65,6 +67,36 @@ public class Biometric
             ["template"] = textFIR.TextFIR,
             ["success"] = true,
         });
+    }
+
+    public IActionResult CaptureForVerify()
+    {
+        HFIR auditHFIR = new HFIR();
+        APIServiceInstance._NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
+        uint ret = APIServiceInstance._NBioAPI.Capture(NBioAPI.Type.FIR_PURPOSE.VERIFY, out NBioAPI.Type.HFIR hCapturedFIR, NBioAPI.Type.TIMEOUT.DEFAULT, auditHFIR, null);
+        APIServiceInstance._NBioAPI.CloseDevice(NBioAPI.Type.DEVICE_ID.AUTO);
+        if (ret != NBioAPI.Error.NONE) return new BadRequestObjectResult(
+            new JsonObject
+            {
+                ["message"] = $"Error on Capture: {ret}",
+                ["success"] = false
+            }
+        );
+
+        APIServiceInstance._NBioAPI.GetTextFIRFromHandle(hCapturedFIR, out NBioAPI.Type.FIR_TEXTENCODE textFIR, true);
+        NBioAPI.Export NBioExport = new NBioAPI.Export(APIServiceInstance._NBioAPI);
+        NBioExport.NBioBSPToImage(auditHFIR, out NBioAPI.Export.EXPORT_AUDIT_DATA exportAuditData);
+        APIServiceInstance._NBioAPI.ImgConvRawToJpgBuf(exportAuditData.AuditData[0].Image[0].Data, exportAuditData.ImageWidth, exportAuditData.ImageHeight, 1, out byte[] imgData);
+        string image64 = Convert.ToBase64String(imgData);
+
+        return new OkObjectResult(
+            new JsonObject
+            {
+                ["template"] = textFIR.TextFIR,
+                ["image"] = image64,
+                ["success"] = true
+            }
+        );
     }
 
     public IActionResult IdentifyOneOnOne(JsonObject template)

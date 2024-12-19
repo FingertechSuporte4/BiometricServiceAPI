@@ -20,6 +20,12 @@ namespace BiometricService.Controllers
             return _biometric.CaptureHash();
         }
 
+        [HttpGet("capture-for-verify")]
+        public IActionResult CaptureForVerify()
+        {
+            return _biometric.CaptureForVerify();
+        }
+
         [HttpPost("match-one-on-one")]
         public IActionResult MatchOneOnOne([FromBody] JsonObject template)
         {
