@@ -3,7 +3,8 @@ API que se comunica com um dispositivo biométrico local nitgen, perfeito para i
 
 ## Compilando
 - Requer que as bibliotecas do SDK eNBioBSP estejam instaladas no sistema.
-- .NET 7 ou superior 
+- .NET 7 ou superior
+- Se você deseja apenas consumir a API, não é necessário compilar o projeto; basta baixar a versão mais recente da API na página de Lançamentos/Releases, executar o instalador e executar a API localmente
 
 # Mapa da API
 O prefixo é: `http://localhost:5000/apiservice/`  
@@ -96,6 +97,9 @@ qualquer outra coisa:
     "success": false
 }
 ```
+Caso encontre problemas com a validação da impressão digital sendo muito rigorosa ou muito permissível, é possível passar um parâmetro opcional `secuLevel` para reduzir ou aumentar o nível de segurança da validação entre 1 (mínimo) e 9 (máximo), o padrão é 5. 
+
+`/identification?secuLevel=9`
 
 --------------------------------
 
