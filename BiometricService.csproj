@@ -8,6 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-BiometricService-c7d8d14c-120e-4583-b733-7856abd5d006</UserSecretsId>
     <ApplicationIcon>icone-finger.ico</ApplicationIcon>
+    <AssemblyVersion>2.4.1.0</AssemblyVersion>
+    <FileVersion>2.4.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +23,7 @@
 
   <ItemGroup>
     <Reference Include="NITGEN.SDK.NBioBSP">
-      <HintPath>..\..\..\..\..\Program Files (x86)\NITGEN\eNBSP SDK Professional\SDK\dotNET\NITGEN.SDK.NBioBSP.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\NITGEN\eNBSP SDK Professional\SDK\dotNET\NITGEN.SDK.NBioBSP.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
