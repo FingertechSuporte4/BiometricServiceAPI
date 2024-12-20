@@ -50,6 +50,18 @@ qualquer outra coisa:
 }
 ```
 
+Você pode passar um parâmetro opcional `window` para definir o estilo da janela de captura. As opções disponíveis são:
+
+- `0` (POPUP): Janela de captura padrão.
+- `1` (INVISIBLE): Captura invisível.
+- `65536` (NO_FPIMG): Sem imagem de impressão digital.
+- `131072` (TOPMOST): Janela sempre no topo.
+- `262144` (NO_WELCOME): Sem mensagem de boas-vindas.
+- `524288` (NO_TOPMOST): Janela não fica no topo.
+
+Exemplo de uso:
+`/capture-for-verify?window=1`
+
 --------------------------------
 
 #### POST: `match-one-on-one/`

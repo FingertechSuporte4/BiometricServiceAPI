@@ -21,9 +21,16 @@ namespace BiometricService.Controllers
         }
 
         [HttpGet("capture-for-verify")]
-        public IActionResult CaptureForVerify()
+        public IActionResult CaptureForVerify(uint? window)
         {
-            return _biometric.CaptureForVerify();
+            if (window.HasValue)
+            {
+                return _biometric.CaptureForVerify((uint)window);
+            }
+            else
+            {
+                return _biometric.CaptureForVerify();
+            }
         }
 
         [HttpPost("match-one-on-one")]
