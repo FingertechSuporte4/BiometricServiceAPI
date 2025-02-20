@@ -14,10 +14,11 @@ Você pode alterar a porta em appsettings.json se precisar em caso de conflito.
 Ativa o dispositivo biométrico para capturar sua impressão digital, caso tudo corra bem imagens da captura atual são salvas localmente no diretório `%temp%/fingers-registered` e é retornado:  
 `200 | OK`
 ```json
-{
-    "fingers-registered": 1,
-    "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash
-    "success": true
+{ 
+    "fingers-registered": 1, 
+    "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash 
+    "images": ["base64string1", "base64string2", ...],  <------- array of base64 encoded images (0 to 4 - right thumb to right pinky: 5 to 9 - left thumb to left pinky)
+    "success": true 
 }
 ```
 qualquer outra coisa:  

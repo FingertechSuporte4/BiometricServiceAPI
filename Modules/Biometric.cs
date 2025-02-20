@@ -53,20 +53,24 @@ public class Biometric
 
         APIServiceInstance._NBioAPI.GetTextFIRFromHandle(hCapturedFIR, out NBioAPI.Type.FIR_TEXTENCODE textFIR, true);
 
+        string[] images = new string[10];
+
         foreach (NBioAPI.Export.AUDIT_DATA finger in exportAuditData.AuditData)
         {
             APIServiceInstance._NBioAPI.ImgConvRawToJpgBuf(finger.Image[0].Data, exportAuditData.ImageWidth, exportAuditData.ImageHeight, 1, out byte[] imgData);
             Directory.CreateDirectory(tempPath);
             File.WriteAllBytes($"{tempPath}\\finger_{finger.FingerID}.jpg", imgData);
+            images[finger.FingerID - 1] = Convert.ToBase64String(imgData);
         }
 
         return new OkObjectResult(
-        new JsonObject
-        {
-            ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
-            ["template"] = textFIR.TextFIR,
-            ["success"] = true,
-        });
+            new JsonObject
+            {
+                ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
+                ["template"] = textFIR.TextFIR,
+                ["images"] = new JsonArray(images.Select(image => JsonValue.Create(image)).ToArray()),
+                ["success"] = true,
+            });
     }
 
     public IActionResult CaptureForVerify(uint windowVisibility = NBioAPI.Type.WINDOW_STYLE.POPUP)
