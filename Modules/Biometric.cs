@@ -17,7 +17,7 @@ public class Biometric
     {
         APIServiceInstance = apiService;
     }
-    public IActionResult CaptureHash()
+    public IActionResult CaptureHash(bool img = false)
     {
         HFIR auditHFIR = new HFIR();
         APIServiceInstance._NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
@@ -63,14 +63,29 @@ public class Biometric
             images[finger.FingerID - 1] = Convert.ToBase64String(imgData);
         }
 
-        return new OkObjectResult(
-            new JsonObject
-            {
-                ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
-                ["template"] = textFIR.TextFIR,
-                ["images"] = new JsonArray(images.Select(image => JsonValue.Create(image)).ToArray()),
-                ["success"] = true,
-            });
+        if (!img)
+        {
+            return new OkObjectResult(
+                new JsonObject
+                {
+                    ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
+                    ["template"] = textFIR.TextFIR,
+                    ["success"] = true,
+                }
+            );
+        }
+        else
+        {
+            return new OkObjectResult(
+                new JsonObject
+                {
+                    ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
+                    ["template"] = textFIR.TextFIR,
+                    ["images"] = new JsonArray(images.Select(image => JsonValue.Create(image)).ToArray()),
+                    ["success"] = true,
+                }
+            );
+        }
     }
 
     public IActionResult CaptureForVerify(uint windowVisibility = NBioAPI.Type.WINDOW_STYLE.POPUP)
@@ -107,7 +122,7 @@ public class Biometric
         );
     }
 
-    public IActionResult IdentifyOneOnOne(JsonObject template, bool digital = false)
+    public IActionResult IdentifyOneOnOne(JsonObject template, bool img = false)
     {
         var secondFir = new NBioAPI.Type.FIR_TEXTENCODE { TextFIR = template["template"]?.ToString() };
         HFIR auditHFIR = new HFIR();
@@ -123,7 +138,7 @@ public class Biometric
             }
         );
 
-        if (!digital)
+        if (!img)
         {
             return new OkObjectResult(
                 new JsonObject

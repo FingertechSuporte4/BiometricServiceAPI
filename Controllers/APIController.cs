@@ -15,9 +15,16 @@ namespace BiometricService.Controllers
         }
 
         [HttpGet("capture-hash")]
-        public IActionResult Capture()
+        public IActionResult Capture(bool? img)
         {
-            return _biometric.CaptureHash();
+            if (img.HasValue)
+            {
+                return _biometric.CaptureHash((bool)img);
+            }
+            else
+            {
+                return _biometric.CaptureHash();
+            }
         }
 
         [HttpGet("capture-for-verify")]
@@ -34,11 +41,11 @@ namespace BiometricService.Controllers
         }
 
         [HttpPost("match-one-on-one")]
-        public IActionResult MatchOneOnOne([FromBody] JsonObject template, bool? digital)
+        public IActionResult MatchOneOnOne([FromBody] JsonObject template, bool? img)
         {
-            if (digital.HasValue)
+            if (img.HasValue)
             {
-                return _biometric.IdentifyOneOnOne(template, (bool)digital);
+                return _biometric.IdentifyOneOnOne(template, (bool)img);
             }
             else
             {
