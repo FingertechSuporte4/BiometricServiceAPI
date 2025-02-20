@@ -41,7 +41,7 @@ Exemplo de uso e retorno:
 { 
     "fingers-registered": 1, 
     "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash 
-    "images": ["base64string1", "base64string2", ...],  <------- array of base64 encoded images (0 to 4 - right thumb to right pinky: 5 to 9 - left thumb to left pinky)
+    "images": ["base64string1", "base64string2", "..."],  <------- array of base64 encoded images (0 to 4 - right thumb to right pinky: 5 to 9 - left thumb to left pinky)
     "success": true 
 }
 ```
