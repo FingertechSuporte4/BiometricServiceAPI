@@ -107,12 +107,13 @@ public class Biometric
         );
     }
 
-    public IActionResult IdentifyOneOnOne(JsonObject template)
+    public IActionResult IdentifyOneOnOne(JsonObject template, bool digital = false)
     {
         var secondFir = new NBioAPI.Type.FIR_TEXTENCODE { TextFIR = template["template"]?.ToString() };
+        HFIR auditHFIR = new HFIR();
 
         APIServiceInstance._NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
-        uint ret = APIServiceInstance._NBioAPI.Verify(secondFir, out bool matched, null);
+        uint ret = APIServiceInstance._NBioAPI.Verify(secondFir, out bool matched, null, -1, auditHFIR, null);
         APIServiceInstance._NBioAPI.CloseDevice(NBioAPI.Type.DEVICE_ID.AUTO);
         if (ret != NBioAPI.Error.NONE) return new BadRequestObjectResult(
             new JsonObject
@@ -122,13 +123,32 @@ public class Biometric
             }
         );
 
-        return new OkObjectResult(
-            new JsonObject
-            {
-                ["message"] = matched ? "Fingerprint matches" : "Fingerprint doesnt match",
-                ["success"] = matched
-            }
-        );
+        if (!digital)
+        {
+            return new OkObjectResult(
+                new JsonObject
+                {
+                    ["message"] = matched ? "Fingerprint matches" : "Fingerprint doesnt match",
+                    ["success"] = matched
+                }
+            );
+        }
+        else
+        {
+            NBioAPI.Export NBioExport = new NBioAPI.Export(APIServiceInstance._NBioAPI);
+            NBioExport.NBioBSPToImage(auditHFIR, out NBioAPI.Export.EXPORT_AUDIT_DATA exportAuditData);
+            APIServiceInstance._NBioAPI.ImgConvRawToJpgBuf(exportAuditData.AuditData[0].Image[0].Data, exportAuditData.ImageWidth, exportAuditData.ImageHeight, 1, out byte[] imgData);
+            string image64 = Convert.ToBase64String(imgData);
+
+            return new OkObjectResult(
+                new JsonObject
+                {
+                    ["message"] = matched ? "Fingerprint matches" : "Fingerprint doesnt match",
+                    ["image"] = image64,
+                    ["success"] = matched
+                }
+            );
+        }
     }
 
     public IActionResult Identification(uint secuLevel = NBioAPI.Type.FIR_SECURITY_LEVEL.NORMAL)

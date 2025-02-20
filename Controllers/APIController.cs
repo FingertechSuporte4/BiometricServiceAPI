@@ -34,9 +34,16 @@ namespace BiometricService.Controllers
         }
 
         [HttpPost("match-one-on-one")]
-        public IActionResult MatchOneOnOne([FromBody] JsonObject template)
+        public IActionResult MatchOneOnOne([FromBody] JsonObject template, bool? digital)
         {
-            return _biometric.IdentifyOneOnOne(template);
+            if (digital.HasValue)
+            {
+                return _biometric.IdentifyOneOnOne(template, (bool)digital);
+            }
+            else
+            {
+                return _biometric.IdentifyOneOnOne(template);
+            }
         }
 
         [HttpGet("identification")]
