@@ -90,6 +90,22 @@ qualquer outra coisa:
 }
 ```
 
+Você pode passar um parâmetro opcional `digital` para retornar a imagem da digital. As opções disponíveis são:
+
+- `false`: Retorno padrão, sem a imagem.
+- `true`: Retorna a imagem em base64.
+
+Exemplo de uso e retorno:
+`/match-one-on-one?digital=true`
+`200 | OK`
+```json
+{
+    "message": "Fingerprint matches / Fingerprint doesnt match",
+    "image": "base64",  <------- fingerprint image
+    "success": true/false
+}
+```
+
 --------------------------------
 
 #### GET: `identification/`
