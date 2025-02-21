@@ -1,12 +1,7 @@
 using BiometricService;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NITGEN.SDK.NBioBSP;
-using System.ComponentModel;
-using System.Reflection;
 using System.Text.Json.Nodes;
-using static NITGEN.SDK.NBioBSP.NBioAPI.Export;
 using static NITGEN.SDK.NBioBSP.NBioAPI.Type;
 
 public class Biometric

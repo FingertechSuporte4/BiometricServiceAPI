@@ -1,8 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using NITGEN.SDK.NBioBSP;
+﻿using NITGEN.SDK.NBioBSP;
 
 namespace BiometricService
 {
