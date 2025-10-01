@@ -49,6 +49,7 @@ public class Biometric
         APIServiceInstance._NBioAPI.GetTextFIRFromHandle(hCapturedFIR, out NBioAPI.Type.FIR_TEXTENCODE textFIR, true);
 
         string[] images = new string[10];
+        List<byte> fingers = new List<byte> { };
 
         foreach (NBioAPI.Export.AUDIT_DATA finger in exportAuditData.AuditData)
         {
@@ -56,6 +57,7 @@ public class Biometric
             Directory.CreateDirectory(tempPath);
             File.WriteAllBytes($"{tempPath}\\finger_{finger.FingerID}.jpg", imgData);
             images[finger.FingerID - 1] = Convert.ToBase64String(imgData);
+            fingers.Add(finger.FingerID);
         }
 
         if (!img)
@@ -65,6 +67,7 @@ public class Biometric
                 {
                     ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
                     ["template"] = textFIR.TextFIR,
+                    ["fingers-id"] = new JsonArray(fingers.Select(finger => JsonValue.Create(finger)).ToArray()),
                     ["success"] = true,
                 }
             );
@@ -76,6 +79,7 @@ public class Biometric
                 {
                     ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
                     ["template"] = textFIR.TextFIR,
+                    ["fingers-id"] = new JsonArray(fingers.Select(finger => JsonValue.Create(finger)).ToArray()),
                     ["images"] = new JsonArray(images.Select(image => JsonValue.Create(image)).ToArray()),
                     ["success"] = true,
                 }

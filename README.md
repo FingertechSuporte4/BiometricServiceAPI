@@ -17,6 +17,10 @@ Ativa o dispositivo biométrico para capturar sua impressão digital, caso tudo 
 {
     "fingers-registered": 1,
     "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash
+    "fingers-id": [ <------- {1 ao 5 - Polegar Direito ao Mínimo Direito e 6 ao 10 - Polegar Esquerdo ao Mínimo Esquerdo}
+        1,
+        6
+    ],
     "success": true
 }
 ```
