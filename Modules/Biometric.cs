@@ -57,7 +57,7 @@ public class Biometric
             Directory.CreateDirectory(tempPath);
             File.WriteAllBytes($"{tempPath}\\finger_{finger.FingerID}.jpg", imgData);
             images[finger.FingerID - 1] = Convert.ToBase64String(imgData);
-            fingers.Add(finger.FingerID - 1);
+            fingers.Add(finger.FingerID);
         }
 
         if (!img)
