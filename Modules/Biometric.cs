@@ -17,6 +17,10 @@ public class Biometric
         HFIR auditHFIR = new HFIR();
         APIServiceInstance._NBioAPI.OpenDevice(NBioAPI.Type.DEVICE_ID.AUTO);
         uint ret = APIServiceInstance._NBioAPI.Capture(NBioAPI.Type.FIR_PURPOSE.ENROLL, out NBioAPI.Type.HFIR hCapturedFIR, NBioAPI.Type.TIMEOUT.DEFAULT, auditHFIR, null);
+
+        APIServiceInstance._NBioAPI.GetFIRFromHandle(auditHFIR, out NBioAPI.Type.FIR auditFIR);
+        int quality = auditFIR.Header.Quality;
+
         APIServiceInstance._NBioAPI.CloseDevice(NBioAPI.Type.DEVICE_ID.AUTO);
         if (ret != NBioAPI.Error.NONE) return new BadRequestObjectResult(
             new JsonObject
@@ -68,6 +72,7 @@ public class Biometric
                     ["fingers-registered"] = exportAuditData.AuditData.GetLength(0),
                     ["template"] = textFIR.TextFIR,
                     ["fingers-id"] = new JsonArray(fingers.Select(finger => JsonValue.Create(finger)).ToArray()),
+                    ["quality-FIR"] = quality,
                     ["success"] = true,
                 }
             );
@@ -81,6 +86,7 @@ public class Biometric
                     ["template"] = textFIR.TextFIR,
                     ["fingers-id"] = new JsonArray(fingers.Select(finger => JsonValue.Create(finger)).ToArray()),
                     ["images"] = new JsonArray(images.Select(image => JsonValue.Create(image)).ToArray()),
+                    ["quality-FIR"] = quality,
                     ["success"] = true,
                 }
             );
