@@ -23,6 +23,7 @@ Ativa o dispositivo biométrico para capturar sua impressão digital, caso tudo 
     "fingers-registered": 1,
     "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash
     "fingers-id": [ 1, 6 ], <------- 1 to 5 - right thumb to right pinky: 6 to 10 - left thumb to left pinky
+    "quality-FIR": 100, <------- quality value of the fingerprint data with a scale of 0 to 100
     "success": true
 }
 ```
@@ -50,7 +51,9 @@ Exemplo de uso e retorno:
 {
     "fingers-registered": 1,
     "template": "AAAAAZCXZDSfe34t4f//...",  <------- fingerprint hash
+    "fingers-id": [ 1, 2 ], <------- 1 to 5 - right thumb to right pinky: 6 to 10 - left thumb to left pinky
     "images": ["base64string1", "base64string2", "..."],  <------- array of base64 encoded images (1 to 5 - right thumb to right pinky: 6 to 10 - left thumb to left pinky)
+    "quality-FIR": 100, <------- quality value of the fingerprint data with a scale of 0 to 100
     "success": true
 }
 ```
